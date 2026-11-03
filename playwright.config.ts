@@ -12,7 +12,7 @@ export default defineConfig({
   use: {
     baseURL,
     browserName: 'chromium',
-    viewport: { width: 1440, height: 1050 },
+    viewport: { width: 2560, height: 1600 },
     launchOptions: executablePath ? { executablePath } : {},
     trace: 'retain-on-failure',
   },

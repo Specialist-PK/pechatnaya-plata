@@ -9,6 +9,8 @@ function route(slug: string, page?: number): string {
   return `#/article/${slug}${page ? `/${page}` : ''}`
 }
 
+type RouteUpdate = 'push' | 'replace' | 'none'
+
 export function mountMagazine(root: HTMLElement): void {
   const firstArticle = articles[0]
   if (!firstArticle) throw new Error('No published articles')
@@ -19,12 +21,16 @@ export function mountMagazine(root: HTMLElement): void {
   let spread = false
   let requestId = 0
   let lastWidth = 0
+  let scrollFrame = 0
+  let scrollTarget: number | null = null
+  let scrollTargetTimer: ReturnType<typeof setTimeout>
   const sourceCache = new Map<string, string>()
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
   const previousButton = <button class={styles.control} type="button" aria-label="Предыдущая страница">←</button> as HTMLButtonElement
   const nextButton = <button class={styles.control} type="button" aria-label="Следующая страница">→</button> as HTMLButtonElement
   const counter = <output class={styles.counter} /> as HTMLOutputElement
-  const viewport = <div class={styles.viewport} /> as HTMLElement
+  const viewport = <div class={styles.viewport} aria-label="Страницы статьи" /> as HTMLElement
   const status = <p class={styles.status} role="status" aria-live="polite" /> as HTMLElement
   const measurement = <div class={styles.measurement} aria-hidden="true" /> as HTMLElement
   const catalog = <dialog class={styles.catalog} aria-labelledby="catalog-title" /> as HTMLDialogElement
@@ -81,7 +87,7 @@ export function mountMagazine(root: HTMLElement): void {
       </main>
       <footer class={styles.siteFooter}>
         <span>Микроэлектроника · домашние компьютеры · техническое творчество</span>
-        <span>← → — листать страницы</span>
+        <span>Прокручивайте ленту · ← → — страницы</span>
       </footer>
       {measurement}
       {catalog}
@@ -89,55 +95,102 @@ export function mountMagazine(root: HTMLElement): void {
   )
 
   const metrics = () => {
-    const available = Math.min(viewport.clientWidth, 1480)
-    const isSpread = available >= 1040
-    const gap = isSpread ? 34 : 0
-    const width = Math.floor(isSpread ? (available - gap) / 2 : Math.min(available, 720))
-    return { spread: isSpread, width, height: Math.round(width * (isSpread ? 1.36 : 1.6)) }
+    const available = Math.min(viewport.clientWidth, 2100)
+    const isSpread = available >= 2100
+    const width = Math.floor(isSpread ? available / 2 : Math.min(available, 1050))
+    return { spread: isSpread, width, height: Math.round(width * 297 / 210) }
   }
 
-  const updateUrl = (replace = false) => {
+  const currentRowStart = () => spread ? currentIndex - currentIndex % 2 : currentIndex
+
+  const updateUrl = (mode: Exclude<RouteUpdate, 'none'> = 'replace') => {
     const page = pages[currentIndex]
     if (!page) return
     const url = route(currentArticle.slug, page.number)
-    if (replace) history.replaceState(null, '', url)
+    if (location.hash === url) return
+    if (mode === 'replace') history.replaceState(null, '', url)
     else history.pushState(null, '', url)
   }
 
-  const render = () => {
+  const updateNavigation = () => {
     const page = pages[currentIndex]
     if (!page) return
 
-    const visible = spread ? pages.slice(currentIndex, currentIndex + 2) : [page]
-    viewport.classList.toggle(styles.spread!, spread)
-    viewport.classList.remove(styles.turning!)
-    void viewport.offsetWidth
-    viewport.classList.add(styles.turning!)
-    viewport.replaceChildren(...visible.map((item) => item.element))
-
-    const lastVisible = visible.at(-1) ?? page
-    counter.value = spread && visible.length > 1
-      ? `${page.number}–${lastVisible.number} / ${currentArticle.startPage + pages.length - 1}`
+    const firstVisible = currentRowStart()
+    const lastVisible = Math.min(firstVisible + (spread ? 1 : 0), pages.length - 1)
+    counter.value = lastVisible > firstVisible
+      ? `${pages[firstVisible]!.number}–${pages[lastVisible]!.number} / ${currentArticle.startPage + pages.length - 1}`
       : `${page.number} / ${currentArticle.startPage + pages.length - 1}`
-    previousButton.disabled = currentIndex === 0
-    nextButton.disabled = currentIndex >= pages.length - (spread ? 2 : 1)
+    previousButton.disabled = firstVisible === 0
+    nextButton.disabled = firstVisible + (spread ? 2 : 1) >= pages.length
     status.textContent = `${currentArticle.title}. ${counter.value}`
     document.title = `${currentArticle.title} — Печатная плата`
+
+    pages.forEach((item, index) => {
+      if (index === currentIndex) item.element.setAttribute('aria-current', 'page')
+      else item.element.removeAttribute('aria-current')
+    })
+  }
+
+  const clearScrollTarget = () => {
+    scrollTarget = null
+    clearTimeout(scrollTargetTimer)
+  }
+
+  const scrollToIndex = (index: number, routeUpdate: RouteUpdate = 'push', smooth = true) => {
+    const next = Math.max(0, Math.min(pages.length - 1, index))
+    const target = pages[next]
+    if (!target) return
+
+    clearScrollTarget()
+    currentIndex = next
+    scrollTarget = next
+    if (routeUpdate !== 'none') updateUrl(routeUpdate)
+    updateNavigation()
+    target.element.scrollIntoView({
+      behavior: smooth && !reducedMotion.matches ? 'smooth' : 'auto',
+      block: 'start',
+    })
+    scrollTargetTimer = setTimeout(() => {
+      scrollTarget = null
+    }, 1000)
+  }
+
+  const syncFromScroll = () => {
+    if (scrollTarget !== null || pages.length === 0) return
+
+    const readingLine = Math.min(window.innerHeight * 0.33, 240)
+    let next = 0
+    for (let index = 0; index < pages.length; index += 1) {
+      if (pages[index]!.element.getBoundingClientRect().top <= readingLine) next = index
+      else break
+    }
+    if (spread) next -= next % 2
+    if (next === currentIndex) return
+
+    currentIndex = next
+    updateUrl()
+    updateNavigation()
+  }
+
+  const render = () => {
+    viewport.classList.toggle(styles.spread!, spread)
+    viewport.replaceChildren(...pages.map((item) => item.element))
+    updateNavigation()
   }
 
   const changePage = (direction: number) => {
     const step = spread ? 2 : 1
-    const maximum = pages.length - 1
-    const next = Math.max(0, Math.min(maximum, currentIndex + direction * step))
+    const firstVisible = currentRowStart()
+    const next = Math.max(0, Math.min(pages.length - 1, firstVisible + direction * step))
     if (next === currentIndex) return
-    currentIndex = next
-    updateUrl()
-    render()
+    scrollToIndex(next)
   }
 
   const openArticle = async (slug: string, requestedPage?: number, canonicalize = false) => {
     const article = articles.find((item) => item.slug === slug) ?? firstArticle
     const id = ++requestId
+    clearScrollTarget()
     status.textContent = 'Подготавливаем страницы…'
 
     let source = sourceCache.get(article.slug)
@@ -168,8 +221,9 @@ export function mountMagazine(root: HTMLElement): void {
     currentIndex = requestedPage === undefined
       ? 0
       : Math.max(0, pages.findIndex((page) => page.number >= requestedPage))
-    updateUrl(canonicalize || location.hash !== route(article.slug, pages[currentIndex]?.number))
     render()
+    if (canonicalize || location.hash !== route(article.slug, pages[currentIndex]?.number)) updateUrl('replace')
+    scrollToIndex(currentIndex, 'none', false)
   }
 
   const openFromRoute = () => {
@@ -181,8 +235,8 @@ export function mountMagazine(root: HTMLElement): void {
       currentIndex = requestedPage === undefined
         ? 0
         : Math.max(0, pages.findIndex((page) => page.number >= requestedPage))
-      updateUrl(true)
-      render()
+      updateUrl('replace')
+      scrollToIndex(currentIndex, 'none', false)
       return
     }
 
@@ -197,11 +251,24 @@ export function mountMagazine(root: HTMLElement): void {
     if (event.target === catalog) closeCatalog()
   })
   window.addEventListener('hashchange', openFromRoute)
+  window.addEventListener('scroll', () => {
+    if (scrollFrame !== 0) return
+    scrollFrame = requestAnimationFrame(() => {
+      scrollFrame = 0
+      syncFromScroll()
+    })
+  }, { passive: true })
+  window.addEventListener('wheel', clearScrollTarget, { passive: true })
+  window.addEventListener('touchstart', clearScrollTarget, { passive: true })
   window.addEventListener('keydown', (event) => {
     if (catalog.open || event.altKey || event.ctrlKey || event.metaKey) return
     if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return
-    if (event.key === 'ArrowLeft') changePage(-1)
-    if (event.key === 'ArrowRight') changePage(1)
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault()
+      changePage(event.key === 'ArrowLeft' ? -1 : 1)
+    } else if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) {
+      clearScrollTarget()
+    }
   })
 
   let resizeTimer: ReturnType<typeof setTimeout>
