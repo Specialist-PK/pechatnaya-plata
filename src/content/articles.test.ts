@@ -3,28 +3,32 @@ import { articles, loadArticleSource } from '@content/articles'
 import { resolveArticleMedia } from '@content/media'
 
 describe('article catalog', () => {
-  it('sorts articles by printed page', () => {
-    expect(articles.map((article) => article.slug)).toEqual([
-      'memory-of-specialist',
-      'eight-bit-workshop',
-      'from-schematic-to-machine',
-    ])
+  it('contains the historical article in printed page order', () => {
+    expect(articles.map((article) => article.slug)).toEqual(['specialist'])
+    expect(articles[0]?.startPage).toBe(19)
   })
 
   it('loads markdown from the article directory without frontmatter', async () => {
-    const source = await loadArticleSource('memory-of-specialist')
-    expect(source).toContain('## Компьютер начинается с памяти')
-    expect(source).not.toContain('title: "Память домашнего компьютера"')
+    const source = await loadArticleSource('specialist')
+    expect(source).toContain('Одноплатный персональный компьютер «Специалист»')
+    expect(source).not.toContain('title: "Ваш помощник — компьютер"')
     expect(source).not.toMatch(/^---/)
   })
 
-  it('resolves media within the owning article directory', () => {
-    const memoryMap = resolveArticleMedia('memory-of-specialist', 'media/memory-map.svg')
-    const lab = resolveArticleMedia('eight-bit-workshop', 'media/computer-lab.svg')
-    expect(memoryMap).not.toBe('')
-    expect(lab).not.toBe('')
-    expect(memoryMap).not.toBe(lab)
-    expect(() => resolveArticleMedia('memory-of-specialist', 'media/missing.svg')).toThrow('Media not found')
-    expect(() => resolveArticleMedia('memory-of-specialist', 'images/memory-map.svg')).toThrow('relative to media/')
+  it('resolves all seven images within the article directory', () => {
+    const paths = [
+      'media/specialist-title.jpg',
+      'media/figure-1-block-diagram.jpg',
+      'media/figure-2-memory-map.jpg',
+      'media/figure-3-schematic-part-1.jpg',
+      'media/figure-3-schematic-part-2.jpg',
+      'media/figure-4-timing-diagram.jpg',
+      'media/technical-specifications.jpg',
+    ]
+    const urls = paths.map((path) => resolveArticleMedia('specialist', path))
+    expect(new Set(urls).size).toBe(paths.length)
+    urls.forEach((url) => expect(url).not.toBe(''))
+    expect(() => resolveArticleMedia('specialist', 'media/missing.jpg')).toThrow('Media not found')
+    expect(() => resolveArticleMedia('specialist', 'images/memory-map.jpg')).toThrow('relative to media/')
   })
 })
