@@ -34,6 +34,7 @@ test('mobile reader, catalog order and resize remain consistent', async ({ page 
   await page.goto(articleUrl('memory-of-specialist'))
   await expect(page.locator('section[aria-label="Страница 19"]')).toBeVisible()
   await expect(page.locator('section[aria-label="Страница 20"]')).not.toBeVisible()
+  await expect(page.locator('section[aria-label="Страница 19"]').getByRole('heading', { name: 'Компьютер начинается с памяти' })).toBeVisible()
 
   await page.getByRole('button', { name: 'Содержание' }).click()
   await expect(page.locator('dialog [class*="catalogEntry"] strong')).toHaveText([

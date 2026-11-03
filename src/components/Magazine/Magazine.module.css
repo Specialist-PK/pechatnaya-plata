@@ -13,28 +13,29 @@
   max-inline-size: 1540px;
   margin-inline: auto;
   padding: 1rem clamp(1rem, 3vw, 2.5rem);
-  border-block-end: 1px solid rgb(215 199 165 / 25%);
+  background: var(--paper);
+  border-block-end: 1px solid var(--line);
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
   gap: .75rem;
-  color: var(--paper-light);
+  color: var(--ink);
   text-decoration: none;
 }
 
 .brandMark {
   display: grid;
-  inline-size: 2.8rem;
-  block-size: 2.8rem;
+  inline-size: 2.65rem;
+  block-size: 2.65rem;
   place-items: center;
   color: var(--paper);
   background: var(--accent-dark);
-  border: 1px solid var(--paper);
-  font-family: var(--display);
-  font-size: 1.2rem;
-  font-weight: 900;
+  font-family: var(--sans);
+  font-size: .9rem;
+  font-weight: 800;
+  letter-spacing: -.03em;
 }
 
 .brand strong,
@@ -44,16 +45,17 @@
 
 .brand strong {
   font-family: var(--display);
-  font-size: clamp(1rem, 2.3vw, 1.45rem);
-  letter-spacing: .025em;
+  font-size: clamp(1rem, 2.3vw, 1.4rem);
+  letter-spacing: -.02em;
   line-height: 1;
   text-transform: uppercase;
 }
 
 .brand small {
-  margin-block-start: .25rem;
-  color: var(--paper-dim);
-  font-size: .68rem;
+  margin-block-start: .3rem;
+  color: var(--ink-muted);
+  font-family: var(--sans);
+  font-size: .65rem;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
@@ -61,16 +63,16 @@
 .issue {
   display: flex;
   flex-direction: column;
-  color: var(--paper-dim);
+  color: var(--ink-muted);
   font-family: var(--sans);
-  font-size: .66rem;
+  font-size: .64rem;
   letter-spacing: .12em;
   text-align: right;
   text-transform: uppercase;
 }
 
 .issue strong {
-  color: var(--paper-light);
+  color: var(--ink);
   font-size: .85rem;
 }
 
@@ -80,9 +82,9 @@
   align-items: center;
   justify-content: center;
   min-block-size: 2.75rem;
-  color: var(--paper-light);
-  background: transparent;
-  border: 1px solid rgb(215 199 165 / 45%);
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 0;
   font-family: var(--sans);
   font-weight: 700;
@@ -96,15 +98,16 @@
 
 .catalogButton:hover,
 .control:hover:not(:disabled) {
-  color: var(--ink);
-  background: var(--paper);
+  color: var(--paper);
+  background: var(--ink);
+  border-color: var(--ink);
 }
 
 .catalogButton:focus-visible,
 .control:focus-visible,
 .catalogEntry:focus-visible,
 .brand:focus-visible {
-  outline: 3px solid #e8a05c;
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -131,19 +134,16 @@
 
 .viewport.spread {
   grid-template-columns: repeat(2, auto);
-  gap: 34px;
+  gap: 28px;
 }
 
-.viewport.spread > :first-child {
-  box-shadow: inset -2rem 0 3rem rgb(44 31 20 / 14%), 0 1.2rem 3rem rgb(28 25 18 / 35%);
-}
-
+.viewport.spread > :first-child,
 .viewport.spread > :last-child:not(:first-child) {
-  box-shadow: inset 2rem 0 3rem rgb(44 31 20 / 14%), 0 1.2rem 3rem rgb(28 25 18 / 35%);
+  box-shadow: 0 12px 30px rgb(24 27 25 / 7%);
 }
 
 .turning {
-  animation: page-in 180ms ease-out;
+  animation: page-in 160ms ease-out;
 }
 
 .navigation {
@@ -156,7 +156,7 @@
 
 .control {
   inline-size: 3rem;
-  font-size: 1.4rem;
+  font-size: 1.25rem;
 }
 
 .control:disabled {
@@ -166,9 +166,9 @@
 
 .counter {
   min-inline-size: 6.5rem;
-  color: var(--paper-dim);
+  color: var(--ink-muted);
   font-family: var(--mono);
-  font-size: .82rem;
+  font-size: .8rem;
   text-align: center;
 }
 
@@ -179,8 +179,9 @@
   max-inline-size: 1540px;
   margin-inline: auto;
   padding: 0 clamp(1rem, 3vw, 2.5rem) 1.5rem;
-  color: var(--paper-dim);
-  font-size: .68rem;
+  color: var(--ink-muted);
+  font-family: var(--sans);
+  font-size: .66rem;
   letter-spacing: .04em;
 }
 
@@ -197,14 +198,14 @@
   max-block-size: calc(100vh - 2rem);
   padding: clamp(1rem, 4vw, 2rem);
   color: var(--ink);
-  background: var(--paper-light);
-  border: 2px solid var(--accent-dark);
+  background: var(--paper);
+  border: 1px solid var(--line);
   border-radius: 0;
-  box-shadow: 0 2rem 5rem rgb(0 0 0 / 50%);
+  box-shadow: 0 24px 70px rgb(24 27 25 / 18%);
 }
 
 .catalog::backdrop {
-  background: rgb(25 25 21 / 75%);
+  background: rgb(24 27 25 / 55%);
   backdrop-filter: blur(3px);
 }
 
@@ -214,25 +215,27 @@
   justify-content: space-between;
   gap: 1rem;
   padding-block-end: 1rem;
-  border-block-end: 3px double var(--ink);
+  border-block-end: 2px solid var(--ink);
 }
 
 .catalogHeader h2 {
   margin: .2rem 0 0;
   font-family: var(--display);
   font-size: 2rem;
+  letter-spacing: -.04em;
   line-height: 1;
   text-transform: uppercase;
 }
 
 .catalog .control {
   color: var(--ink);
-  border-color: var(--ink-soft);
+  border-color: var(--line);
 }
 
 .kicker {
-  color: var(--accent);
-  font-size: .72rem;
+  color: var(--accent-dark);
+  font-family: var(--sans);
+  font-size: .7rem;
   font-weight: 800;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -246,18 +249,18 @@
   display: grid;
   grid-template-columns: 2.5rem 1fr;
   gap: 1rem;
-  padding: 1.1rem 0;
+  padding: 1.1rem .35rem;
   color: var(--ink);
   background: transparent;
   border: 0;
-  border-block-end: 1px solid var(--ink-soft);
+  border-block-end: 1px solid var(--line);
   font: inherit;
   text-align: left;
   cursor: pointer;
 }
 
 .catalogEntry:hover {
-  background: rgb(130 61 50 / 8%);
+  background: var(--surface);
 }
 
 .catalogEntry small,
@@ -267,8 +270,9 @@
 }
 
 .catalogEntry small {
-  color: var(--accent);
-  font-size: .7rem;
+  color: var(--accent-dark);
+  font-family: var(--sans);
+  font-size: .68rem;
   font-weight: 800;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -278,14 +282,15 @@
   margin: .2rem 0 .35rem;
   font-family: var(--display);
   font-size: 1.25rem;
+  letter-spacing: -.02em;
   line-height: 1.05;
 }
 
 .catalogPage {
   color: var(--accent-dark);
-  font-family: var(--display);
-  font-size: 1.5rem;
-  font-weight: 900;
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 800;
 }
 
 .colophon {
@@ -296,7 +301,7 @@
 }
 
 @keyframes page-in {
-  from { opacity: .45; translate: 0 .4rem; }
+  from { opacity: .6; translate: 0 .25rem; }
   to { opacity: 1; translate: 0; }
 }
 

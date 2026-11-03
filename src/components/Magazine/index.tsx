@@ -93,7 +93,7 @@ export function mountMagazine(root: HTMLElement): void {
     const isSpread = available >= 1040
     const gap = isSpread ? 34 : 0
     const width = Math.floor(isSpread ? (available - gap) / 2 : Math.min(available, 720))
-    return { spread: isSpread, width, height: Math.round(width * 1.36) }
+    return { spread: isSpread, width, height: Math.round(width * (isSpread ? 1.36 : 1.6)) }
   }
 
   const updateUrl = (replace = false) => {
