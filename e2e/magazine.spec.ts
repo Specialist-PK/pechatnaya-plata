@@ -101,6 +101,7 @@ test('deep links, keyboard navigation and browser history work on the published 
   await expect(page.locator('[aria-label="Страницы статьи"]')).toHaveCSS('animation-name', 'none')
 
   await page.goto(articleUrl('memory-of-specialist', 19))
+  await expect(page.locator('section[aria-label="Страница 19"]')).toBeInViewport({ ratio: 0.5 })
   await page.keyboard.press('ArrowRight')
   await expect(page).toHaveURL(/memory-of-specialist\/21$/)
   await expect(page.locator('section[aria-label="Страница 21"]')).toBeInViewport({ ratio: 0.5 })
