@@ -1,0 +1,23 @@
+name: Bug
+description: Что-то работает не так, как задумано
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Что происходит
+      description: Ожидаемое и фактическое поведение.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Как воспроизвести
+      description: Команды, статья и страница, размер экрана, браузер и версии.
+    validations:
+      required: true
+  - type: textarea
+    id: checks
+    attributes:
+      label: Проверки и логи
+      description: Результаты Vitest, Playwright, ошибки браузера и неудачные запросы.

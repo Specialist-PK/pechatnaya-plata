@@ -1,8 +1,8 @@
 import { readFileSync, readdirSync } from 'node:fs'
-import { basename, join } from 'node:path'
+import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import matter from 'gray-matter'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import type { Plugin } from 'vite'
 
 const fromRoot = (path: string) => fileURLToPath(new URL(`./${path}`, import.meta.url))
@@ -11,23 +11,24 @@ const virtualArticlesId = 'virtual:articles'
 const resolvedVirtualArticlesId = `\0${virtualArticlesId}`
 
 function readArticles() {
-  return readdirSync(articlesDirectory)
-    .filter((file) => file.endsWith('.md'))
-    .sort()
-    .flatMap((file) => {
-      const source = readFileSync(join(articlesDirectory, file), 'utf8')
+  return readdirSync(articlesDirectory, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .flatMap((entry) => {
+      const file = join(articlesDirectory, entry.name, 'index.md')
+      const source = readFileSync(file, 'utf8')
       const { data } = matter(source)
-      const slug = basename(file, '.md')
+      const slug = entry.name
       const required = ['title', 'description', 'issue', 'published', 'rubric']
 
       for (const field of required) {
         if (typeof data[field] !== 'string' && typeof data[field] !== 'number') {
-          throw new Error(`${file}: missing frontmatter field "${field}"`)
+          throw new Error(`${slug}/index.md: missing frontmatter field "${field}"`)
         }
       }
 
       if (!Array.isArray(data.authors) || data.authors.length === 0) {
-        throw new Error(`${file}: authors must be a non-empty list`)
+        throw new Error(`${slug}/index.md: authors must be a non-empty list`)
       }
 
       if (data.draft === true) return []
@@ -80,9 +81,15 @@ export default defineConfig({
     alias: {
       'jsx-dom': fromRoot('src/lib/jsx'),
       '@components': fromRoot('src/components'),
+      '@content': fromRoot('src/content'),
       '@lib': fromRoot('src/lib'),
     },
   },
   css: { devSourcemap: true },
   build: { sourcemap: true },
+  test: {
+    environment: 'jsdom',
+    include: ['src/**/*.test.{ts,tsx}', 'tools/**/*.test.ts'],
+    restoreMocks: true,
+  },
 })

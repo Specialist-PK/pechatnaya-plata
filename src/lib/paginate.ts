@@ -1,7 +1,7 @@
 import { createMagazinePage } from '@components/Page'
 import type { PageView } from '@components/Page'
-import type { ArticleMeta, MagazinePage } from '../content/types'
-import styles from '../components/Page/Page.module.css'
+import type { ArticleMeta, MagazinePage } from '@content/types'
+import styles from '@components/Page/Page.module.css'
 
 interface PaginationOptions {
   article: ArticleMeta

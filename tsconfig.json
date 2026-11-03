@@ -9,6 +9,7 @@
     "paths": {
       "jsx-dom/*": ["./src/lib/jsx/*"],
       "@components/*": ["./src/components/*"],
+      "@content/*": ["./src/content/*"],
       "@lib/*": ["./src/lib/*"]
     },
     "skipLibCheck": true,
@@ -24,5 +25,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "vite.config.ts"]
+  "include": ["src", "e2e", "tools", "vite.config.ts", "playwright.config.ts"]
 }
