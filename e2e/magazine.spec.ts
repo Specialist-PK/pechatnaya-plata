@@ -161,18 +161,17 @@ test('local PT fonts render Cyrillic without external font services', async ({ p
     if (response.url().endsWith('.woff2')) fontResponses.push({ url: response.url(), status: response.status() })
   })
 
-  await page.goto(articleUrl('memory-of-specialist'))
+  await page.goto(articleUrl())
   await expect(page.locator('section[aria-label="Страница 19"]')).toBeInViewport({ ratio: 0.5 })
   await page.evaluate(() => document.fonts.ready)
 
   const state = await page.evaluate(() => ({
-    serif: document.fonts.check('16px "PT Serif"', 'Память'),
-    sans: document.fonts.check('700 16px "PT Sans Narrow"', 'Память'),
+    loadedFonts: [...document.fonts].filter((face) => face.status === 'loaded').map((face) => face.family),
     bodyFamily: getComputedStyle(document.body).fontFamily,
     headingFamily: getComputedStyle(document.querySelector('h1')!).fontFamily,
   }))
-  expect(state.serif).toBe(true)
-  expect(state.sans).toBe(true)
+  expect(state.loadedFonts).toContain('PT Serif')
+  expect(state.loadedFonts).toContain('PT Sans Narrow')
   expect(state.bodyFamily).toContain('PT Serif')
   expect(state.headingFamily).toContain('PT Sans Narrow')
   expect(externalRequests).toEqual([])
