@@ -1,4 +1,5 @@
-import type { ArticleMeta } from '../../content/types'
+import type { ArticleMeta } from '@content/types'
+import { resolveArticleMedia } from '@content/media'
 import styles from './Page.module.css'
 
 export interface PageView {
@@ -10,7 +11,7 @@ export interface PageView {
 export function createArticleHero(article: ArticleMeta): HTMLElement {
   return <header class={styles.hero}>
     <span class={styles.rubric}>{article.rubric}</span>
-    {article.hero && <img src={`${import.meta.env.BASE_URL}${article.hero}`} alt="Техническая иллюстрация к статье" />}
+    {article.hero && <img src={resolveArticleMedia(article.slug, article.hero)} alt="Техническая иллюстрация к статье" />}
     <div class={styles.heroTitle}>
       <h1>{article.title}</h1>
       <p>{article.description}</p>

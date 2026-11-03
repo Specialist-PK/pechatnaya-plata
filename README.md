@@ -21,7 +21,9 @@
 - Vite 8 и TypeScript 7;
 - `gray-matter` для метаданных во время сборки;
 - `markdown-it` для клиентского рендера;
-- собственный небольшой JSX-runtime и CSS Modules.
+- собственный небольшой JSX-runtime и CSS Modules;
+- Vitest и jsdom для модульных проверок;
+- Playwright для браузерных сценариев production-сборки.
 
 ## Локальный запуск
 
@@ -36,6 +38,7 @@ Vite выведет адрес dev-сервера, обычно `http://127.0.0.
 
 ```sh
 bun run typecheck
+bun run test
 bun run build
 bun run preview
 ```
@@ -47,22 +50,37 @@ BASE_PATH=/pechatnaya-plata/ bun run build
 BASE_PATH=/pechatnaya-plata/ bun run preview
 ```
 
+Перед первым запуском Playwright установите Chromium командой `bun run test:e2e:install`. Если Chromium уже установлен в системе, можно передать его путь через `CHROME_PATH`:
+
+```sh
+bun run test:e2e
+# или
+CHROME_PATH=/usr/bin/chromium bun run test:e2e
+```
+
+Playwright сам собирает production-версию по `/pechatnaya-plata/`, запускает preview на `127.0.0.1:4173` и останавливает его после проверок. Trace при ошибках сохраняется в `test-results/`.
+
 ## Структура
 
 ```text
-content/articles/        Markdown-статьи с frontmatter
-public/images/           SVG-иллюстрации и схемы
+content/articles/<slug>/
+  index.md               статья с frontmatter
+  media/                 изображения и схемы только этой статьи
+public/                  общие ресурсы сайта
 src/components/          DOM-компоненты и CSS Modules
-src/content/             каталог, ленивая загрузка и Markdown renderer
+src/content/             каталог, медиа, lazy-загрузка и Markdown renderer
 src/lib/jsx/             JSX-runtime без виртуального DOM
 src/lib/paginate.ts      распределение блоков по страницам
+e2e/                     пользовательские сценарии Playwright
 scripts/                 финализация production-сборки
 .github/workflows/       деплой на GitHub Pages
 ```
 
+Импорты между модулями `src` используют абсолютные алиасы `@components`, `@content` и `@lib`. Относительные импорты остаются только для файлов внутри одного модуля, например CSS Modules. Алиасы синхронизированы в `tsconfig.json` и `vite.config.ts`.
+
 ## Добавление статьи
 
-Создайте `content/articles/<slug>.md`. Имя файла становится постоянным `slug` и используется в hash-маршруте.
+Создайте каталог `content/articles/<slug>/` и файл `index.md` внутри него. Имя каталога становится постоянным `slug` и используется в hash-маршруте. Изображения статьи размещайте в её подкаталоге `media/`.
 
 ```md
 ---
@@ -74,7 +92,7 @@ rubric: "Техническое творчество"
 authors:
   - "Имя автора"
 startPage: 55
-hero: "images/hero-computer.svg"
+hero: "media/hero.svg"
 ---
 
 Текст статьи.
@@ -82,17 +100,17 @@ hero: "images/hero-computer.svg"
 
 Обязательные поля: `title`, `description`, `issue`, `published`, `rubric`, `authors`. Необязательные: `startPage`, `hero`, `draft: true`. Полная статья загружается только при открытии, а в исходный каталог попадают только метаданные.
 
-Изображения из `public/` указываются без учёта базового пути:
+Изображения из каталога статьи указываются относительно `media/`:
 
 ```md
-![Подпись к схеме](images/memory-map.svg)
+![Подпись к схеме](media/memory-map.svg)
 ```
 
-Сырой HTML в Markdown отключён. Номера страниц зависят от ширины экрана, поэтому `startPage` задаёт только номер первой страницы статьи.
+Vite выпускает медиа как assets, а `resolveArticleMedia()` связывает их с конкретной статьёй и учитывает `BASE_PATH`. Сырой HTML в Markdown отключён. Номера страниц зависят от ширины экрана, поэтому `startPage` задаёт только номер первой страницы статьи.
 
 ## Деплой на GitHub Pages
 
-Workflow `.github/workflows/deploy.yml` запускается после push в `main` и вручную. Он устанавливает Bun, проверяет TypeScript, собирает `dist/` с `BASE_PATH` от `actions/configure-pages` и публикует артефакт через `actions/deploy-pages`.
+Workflow `.github/workflows/deploy.yml` запускается после push в `main` и вручную. Он устанавливает Bun, проверяет TypeScript, запускает Vitest и Playwright, собирает `dist/` с `BASE_PATH` от `actions/configure-pages` и публикует артефакт через `actions/deploy-pages`.
 
 Перед первым запуском выберите **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 

@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it'
+import { resolveArticleMedia } from '@content/media'
 
 const markdown = new MarkdownIt({
   html: false,
@@ -6,14 +7,16 @@ const markdown = new MarkdownIt({
   typographer: true,
 })
 
-export function renderMarkdown(source: string): HTMLElement {
+export function renderMarkdown(source: string, slug: string): HTMLElement {
   const article = document.createElement('article')
   article.className = 'article-body'
   article.innerHTML = markdown.render(source)
 
   for (const image of article.querySelectorAll('img')) {
     const source = image.getAttribute('src') ?? ''
-    if (!/^(?:[a-z]+:|\/\/)/i.test(source)) {
+    if (source.startsWith('media/')) {
+      image.src = resolveArticleMedia(slug, source)
+    } else if (!/^(?:[a-z]+:|\/\/)/i.test(source)) {
       image.src = `${import.meta.env.BASE_URL}${source.replace(/^\.\//, '').replace(/^\//, '')}`
     }
     image.loading = 'eager'
