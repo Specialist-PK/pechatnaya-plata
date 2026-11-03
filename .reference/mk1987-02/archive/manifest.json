@@ -1,0 +1,901 @@
+{
+  "schemaVersion": 1,
+  "journal": "Моделист-Конструктор",
+  "year": 1987,
+  "issue": 2,
+  "pageCount": 40,
+  "source": {
+    "fileName": "Моделист-Конструктор_1987-02_konstantin.in.pdf",
+    "sha256": "ec585808fe72fd696a59ebcad60df0537d1c2c5c569f2987be5719aae7388fd0",
+    "referenceUrl": "https://konstantin.in/page/zhurnal-modelist-konstruktor-1987-god",
+    "pdfIncluded": false
+  },
+  "extraction": {
+    "renderDpi": 150,
+    "pageImageDimensions": {
+      "width": 1241,
+      "height": 1654,
+      "unit": "px"
+    },
+    "ocrEngine": "Tesseract 5.5.4",
+    "ocrLanguages": ["rus", "eng"],
+    "ocrProofread": false,
+    "coordinateSystem": "Page render pixels; origin at the top-left; bbox contains x, y, width and height."
+  },
+  "manualVerification": {
+    "article-specialist.md": {
+      "sourcePdfPages": [23, 24, 25, 26],
+      "status": "proofread"
+    },
+    "memory-map.md": {
+      "sourcePdfPages": [24],
+      "status": "proofread"
+    },
+    "technical-specifications.md": {
+      "sourcePdfPages": [26],
+      "status": "proofread"
+    },
+    "architecture.md": {
+      "sourcePdfPages": [23, 24, 26],
+      "status": "proofread"
+    }
+  },
+  "pages": [
+    {
+      "pdfPage": 1,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-01.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-01.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 2,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-02.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-02.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 3,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-03.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-03.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 4,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-04.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-04.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 5,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-05.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-05.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 6,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-06.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-06.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 7,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-07.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-07.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 8,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-08.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-08.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 9,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-09.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-09.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 10,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-10.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-10.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 11,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-11.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-11.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 12,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-12.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-12.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 13,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-13.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-13.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 14,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-14.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-14.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 15,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-15.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-15.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 16,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-16.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-16.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 17,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-17.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-17.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 18,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-18.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-18.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 19,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-19.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-19.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 20,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-20.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-20.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 21,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-21.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-21.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 22,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-22.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-22.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 23,
+      "printedPage": 19,
+      "image": {
+        "path": "pages/page-23.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-23.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": ["specialist-title", "figure-1-block-diagram"]
+    },
+    {
+      "pdfPage": 24,
+      "printedPage": 20,
+      "image": {
+        "path": "pages/page-24.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-24.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": ["figure-2-memory-map", "figure-3-schematic-part-1"]
+    },
+    {
+      "pdfPage": 25,
+      "printedPage": 21,
+      "image": {
+        "path": "pages/page-25.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-25.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": ["figure-3-schematic-part-2"]
+    },
+    {
+      "pdfPage": 26,
+      "printedPage": 22,
+      "image": {
+        "path": "pages/page-26.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-26.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": ["figure-4-timing-diagram", "technical-specifications"]
+    },
+    {
+      "pdfPage": 27,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-27.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-27.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 28,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-28.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-28.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 29,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-29.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-29.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 30,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-30.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-30.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 6,
+        "preprocessedRegion": {
+          "x": 430,
+          "y": 1000,
+          "width": 270,
+          "height": 654,
+          "unit": "px",
+          "origin": "top-left"
+        }
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 31,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-31.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-31.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 32,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-32.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-32.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 33,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-33.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-33.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 34,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-34.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-34.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 35,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-35.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-35.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 36,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-36.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-36.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 37,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-37.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-37.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 38,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-38.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-38.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 39,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-39.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-39.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    },
+    {
+      "pdfPage": 40,
+      "printedPage": null,
+      "image": {
+        "path": "pages/page-40.jpg",
+        "mediaType": "image/jpeg",
+        "width": 1241,
+        "height": 1654
+      },
+      "ocr": {
+        "path": "pages/page-40.txt",
+        "engine": "Tesseract 5.5.4",
+        "languages": ["rus", "eng"],
+        "status": "unverified",
+        "pageSegmentationMode": 3
+      },
+      "figureIds": []
+    }
+  ],
+  "figures": [
+    {
+      "id": "specialist-title",
+      "title": "Заставка статьи «Ваш помощник — компьютер»",
+      "path": "figures/specialist-title.jpg",
+      "sourcePdfPage": 23,
+      "sourcePrintedPage": 19,
+      "sourceImage": "pages/page-23.jpg",
+      "mediaType": "image/jpeg",
+      "bbox": {
+        "x": 64,
+        "y": 55,
+        "width": 1116,
+        "height": 425,
+        "unit": "px",
+        "origin": "top-left"
+      },
+      "visuallyVerified": true
+    },
+    {
+      "id": "figure-1-block-diagram",
+      "title": "Рис. 1. Структурная схема микроЭВМ",
+      "path": "figures/figure-1-block-diagram.jpg",
+      "sourcePdfPage": 23,
+      "sourcePrintedPage": 19,
+      "sourceImage": "pages/page-23.jpg",
+      "mediaType": "image/jpeg",
+      "bbox": {
+        "x": 67,
+        "y": 1068,
+        "width": 1104,
+        "height": 477,
+        "unit": "px",
+        "origin": "top-left"
+      },
+      "visuallyVerified": true
+    },
+    {
+      "id": "figure-2-memory-map",
+      "title": "Рис. 2. Схема распределения памяти",
+      "path": "figures/figure-2-memory-map.jpg",
+      "sourcePdfPage": 24,
+      "sourcePrintedPage": 20,
+      "sourceImage": "pages/page-24.jpg",
+      "mediaType": "image/jpeg",
+      "bbox": {
+        "x": 64,
+        "y": 1028,
+        "width": 354,
+        "height": 518,
+        "unit": "px",
+        "origin": "top-left"
+      },
+      "visuallyVerified": true
+    },
+    {
+      "id": "figure-3-schematic-part-1",
+      "title": "Рис. 3. Принципиальная схема «Специалиста», первая часть",
+      "path": "figures/figure-3-schematic-part-1.jpg",
+      "sourcePdfPage": 24,
+      "sourcePrintedPage": 20,
+      "sourceImage": "pages/page-24.jpg",
+      "mediaType": "image/jpeg",
+      "bbox": {
+        "x": 456,
+        "y": 42,
+        "width": 724,
+        "height": 1480,
+        "unit": "px",
+        "origin": "top-left"
+      },
+      "visuallyVerified": true
+    },
+    {
+      "id": "figure-3-schematic-part-2",
+      "title": "Рис. 3. Принципиальная схема «Специалиста», вторая часть",
+      "path": "figures/figure-3-schematic-part-2.jpg",
+      "sourcePdfPage": 25,
+      "sourcePrintedPage": 21,
+      "sourceImage": "pages/page-25.jpg",
+      "mediaType": "image/jpeg",
+      "bbox": {
+        "x": 52,
+        "y": 49,
+        "width": 1122,
+        "height": 1475,
+        "unit": "px",
+        "origin": "top-left"
+      },
+      "visuallyVerified": true
+    },
+    {
+      "id": "figure-4-timing-diagram",
+      "title": "Рис. 4. Временная диаграмма сигналов в различных узлах ЭВМ",
+      "path": "figures/figure-4-timing-diagram.jpg",
+      "sourcePdfPage": 26,
+      "sourcePrintedPage": 22,
+      "sourceImage": "pages/page-26.jpg",
+      "mediaType": "image/jpeg",
+      "bbox": {
+        "x": 58,
+        "y": 49,
+        "width": 1127,
+        "height": 510,
+        "unit": "px",
+        "origin": "top-left"
+      },
+      "visuallyVerified": true
+    },
+    {
+      "id": "technical-specifications",
+      "title": "Таблица технических характеристик компьютера «Специалист»",
+      "path": "figures/technical-specifications.jpg",
+      "sourcePdfPage": 26,
+      "sourcePrintedPage": 22,
+      "sourceImage": "pages/page-26.jpg",
+      "mediaType": "image/jpeg",
+      "bbox": {
+        "x": 448,
+        "y": 1188,
+        "width": 349,
+        "height": 350,
+        "unit": "px",
+        "origin": "top-left"
+      },
+      "visuallyVerified": true
+    }
+  ]
+}
