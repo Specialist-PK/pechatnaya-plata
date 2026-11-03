@@ -5,8 +5,10 @@
   grid-template-rows: auto minmax(0, 1fr) auto;
   inline-size: var(--page-width);
   block-size: var(--page-height);
+  aspect-ratio: 210 / 297;
   padding: var(--page-padding);
   overflow: hidden;
+  scroll-margin-block-start: 1rem;
   container-type: inline-size;
   color: var(--ink);
   background: var(--paper);
@@ -287,12 +289,6 @@
   .hero > img {
     block-size: 120px;
     aspect-ratio: auto;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .page {
-    transition: translate 180ms ease, opacity 180ms ease;
   }
 }
 
