@@ -1,5 +1,9 @@
 node_modules/
 dist/
+.vitest/
+playwright-report/
+test-results/
+blob-report/
 .reference/
 *.log
 *.local

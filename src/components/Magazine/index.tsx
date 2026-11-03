@@ -1,6 +1,6 @@
-import { articles, loadArticleSource } from '../../content/articles'
-import { renderMarkdown, waitForArticleAssets } from '../../content/render'
-import type { MagazinePage } from '../../content/types'
+import { articles, loadArticleSource } from '@content/articles'
+import { renderMarkdown, waitForArticleAssets } from '@content/render'
+import type { MagazinePage } from '@content/types'
 import { createArticleHero } from '@components/Page'
 import { paginateArticle } from '@lib/paginate'
 import styles from './Magazine.module.css'
@@ -147,7 +147,7 @@ export function mountMagazine(root: HTMLElement): void {
     }
 
     const nextMetrics = metrics()
-    const body = renderMarkdown(source)
+    const body = renderMarkdown(source, article.slug)
     body.prepend(createArticleHero(article))
     await waitForArticleAssets(body)
     if (id !== requestId) return
