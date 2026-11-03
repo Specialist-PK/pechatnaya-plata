@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470">
+  <rect x="8" y="8" width="884" height="454" fill="#d7c7a5" stroke="#823d32" stroke-width="5"/>
+  <g font-family="monospace" font-size="22" fill="#292c27" stroke="#292c27" stroke-width="2">
+    <path d="M170 50h470v62H170Z" fill="#d7c7a5"/><path d="M170 112h470v62H170Z" fill="#d7c7a5"/><path d="M170 174h470v92H170Z" fill="#d7c7a5"/><path d="M170 266h470v62H170Z" fill="#d7c7a5"/><path d="M170 328h470v82H170Z" fill="#d7c7a5"/>
+    <g stroke="none"><text x="195" y="90">ROM · НАЧАЛЬНАЯ ПРОГРАММА</text><text x="195" y="152">РЕЗЕРВ</text><text x="195" y="211">VRAM · ИЗОБРАЖЕНИЕ</text><text x="195" y="242">384 × 256 ТОЧЕК</text><text x="195" y="307">RAM · ПРОГРАММЫ</text><text x="195" y="374">RAM · ДАННЫЕ ПОЛЬЗОВАТЕЛЯ</text></g>
+    <g stroke="none" text-anchor="end"><text x="820" y="90">FFFF</text><text x="820" y="152">C000</text><text x="820" y="211">BFFF</text><text x="820" y="307">9000</text><text x="820" y="374">0000</text></g>
+    <path d="M118 50v360M99 50h38M99 410h38" fill="none"/>
+    <text x="72" y="245" stroke="none" transform="rotate(-90 72 245)">АДРЕСНОЕ ПРОСТРАНСТВО</text>
+  </g>
+</svg>

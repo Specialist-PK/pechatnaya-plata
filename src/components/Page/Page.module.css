@@ -1,0 +1,304 @@
+.page {
+  --page-padding: clamp(1.15rem, 3.2cqw, 2.8rem);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  inline-size: var(--page-width);
+  block-size: var(--page-height);
+  padding: var(--page-padding);
+  overflow: hidden;
+  container-type: inline-size;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 20% 15%, rgb(255 255 255 / 18%), transparent 30%),
+    radial-gradient(circle at 85% 75%, rgb(91 64 35 / 8%), transparent 42%),
+    repeating-linear-gradient(3deg, rgb(63 47 31 / 2%) 0 1px, transparent 1px 4px),
+    var(--paper);
+  border: 1px solid rgb(62 51 34 / 35%);
+  box-shadow: 0 1.2rem 3rem rgb(28 25 18 / 35%), inset 0 0 4rem rgb(83 56 28 / 8%);
+}
+
+.page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .18;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+}
+
+.header,
+.footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--sans);
+  font-size: clamp(.58rem, 1.45cqw, .78rem);
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+
+.header {
+  padding-block-end: .55rem;
+  border-block-end: 1px solid var(--ink-soft);
+}
+
+.footer {
+  padding-block-start: .55rem;
+  border-block-start: 1px solid var(--ink-soft);
+}
+
+.pageNumber {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.content {
+  min-block-size: 0;
+  padding-block: clamp(.7rem, 1.8cqw, 1.15rem);
+  overflow: hidden;
+  font-family: var(--serif);
+  font-size: clamp(.8rem, 2.15cqw, 1.04rem);
+  line-height: 1.37;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.hero {
+  position: relative;
+  margin-block-end: 1rem;
+  overflow: hidden;
+  color: var(--paper-light);
+  background: var(--ink);
+  border: 2px solid var(--ink);
+}
+
+.hero > img {
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: 1000 / 520;
+  object-fit: cover;
+  opacity: .74;
+  filter: sepia(.45) contrast(1.15);
+}
+
+.rubric {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 3%;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  max-inline-size: 72%;
+  padding: .25em .7em;
+  color: var(--accent);
+  background: var(--paper);
+  font-family: var(--serif);
+  font-size: clamp(.85rem, 3cqw, 1.35rem);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+}
+
+.heroTitle {
+  position: absolute;
+  z-index: 1;
+  inset: 16% 4% 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.heroTitle h1 {
+  max-inline-size: 68%;
+  margin: 0;
+  color: transparent;
+  font-family: var(--display);
+  font-size: clamp(2rem, 8.2cqw, 4.8rem);
+  font-weight: 900;
+  letter-spacing: -.055em;
+  line-height: .88;
+  text-transform: uppercase;
+  -webkit-text-stroke: 1px var(--paper-light);
+  text-shadow: 3px 3px 0 rgb(0 0 0 / 35%);
+}
+
+.heroTitle p {
+  max-inline-size: 55%;
+  margin: 0;
+  padding: .3em .45em;
+  color: var(--ink);
+  background: rgb(215 199 165 / 88%);
+  font-family: var(--sans);
+  font-size: clamp(.58rem, 1.8cqw, .82rem);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.content :global(.article-body) > * {
+  max-inline-size: 100%;
+}
+
+.content :global(p) {
+  margin: 0 0 .7em;
+}
+
+.content :global(.article-body > h2:first-child) {
+  margin-block-start: 0;
+}
+
+.content :global(h2),
+.content :global(h3) {
+  margin: .9em 0 .55em;
+  font-family: var(--sans);
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: left;
+  text-wrap: balance;
+}
+
+.content :global(h2) {
+  padding-block: .28em;
+  font-size: 1.04em;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+  border-block: 2px solid var(--ink);
+}
+
+.content :global(h3) {
+  font-size: 1em;
+  color: var(--accent);
+}
+
+.content :global(strong) {
+  font-weight: 800;
+}
+
+.content :global(a) {
+  color: var(--accent-dark);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .15em;
+}
+
+.content :global(figure) {
+  margin: .8em 0;
+  padding: .4em;
+  text-align: center;
+  border: 2px solid var(--accent);
+  break-inside: avoid;
+}
+
+.content :global(figure img) {
+  display: block;
+  inline-size: 100%;
+  max-block-size: 46vh;
+  object-fit: contain;
+  filter: sepia(.25) contrast(1.05);
+}
+
+.content :global(figcaption) {
+  padding: .35em .2em 0;
+  color: var(--accent-dark);
+  font-size: .82em;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.content :global(pre) {
+  margin: .75em 0;
+  padding: .6em .8em;
+  overflow: hidden;
+  color: var(--paper-light);
+  background: var(--ink);
+  border-inline-start: .35em solid var(--accent);
+  font-family: var(--mono);
+  font-size: .78em;
+  line-height: 1.45;
+  text-align: left;
+  white-space: pre-wrap;
+}
+
+.content :global(code) {
+  font-family: var(--mono);
+  font-size: .85em;
+}
+
+.content :global(blockquote) {
+  margin: .85em 0;
+  padding: .65em .8em;
+  background: rgb(130 61 50 / 10%);
+  border-block: 1px solid var(--accent);
+  border-inline-start: .35em solid var(--accent);
+}
+
+.content :global(blockquote p:last-child) {
+  margin-block-end: 0;
+}
+
+.content :global(table) {
+  inline-size: 100%;
+  margin: .75em 0;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: .72em;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.content :global(th),
+.content :global(td) {
+  padding: .45em;
+  border: 1px solid var(--ink-soft);
+}
+
+.content :global(th) {
+  color: var(--paper-light);
+  background: var(--accent-dark);
+}
+
+.content :global(ul),
+.content :global(ol) {
+  margin: .65em 0 .8em;
+  padding-inline-start: 1.35em;
+}
+
+.content :global(hr) {
+  margin: 1em 0 .8em;
+  border: 0;
+  border-block-start: 2px solid var(--accent);
+}
+
+.content .oversized {
+  max-block-size: 100%;
+  overflow: auto;
+  font-size: .82em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page {
+    transition: translate 180ms ease, opacity 180ms ease;
+  }
+}
+
+@media print {
+  .page {
+    inline-size: 100%;
+    block-size: auto;
+    break-after: page;
+    box-shadow: none;
+  }
+
+  .content {
+    overflow: visible;
+  }
+}

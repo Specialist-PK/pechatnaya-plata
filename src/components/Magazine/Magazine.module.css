@@ -1,0 +1,352 @@
+.shell {
+  min-block-size: 100vh;
+  color: var(--ink);
+}
+
+.masthead {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: clamp(.75rem, 2vw, 2rem);
+  max-inline-size: 1540px;
+  margin-inline: auto;
+  padding: 1rem clamp(1rem, 3vw, 2.5rem);
+  border-block-end: 1px solid rgb(215 199 165 / 25%);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .75rem;
+  color: var(--paper-light);
+  text-decoration: none;
+}
+
+.brandMark {
+  display: grid;
+  inline-size: 2.8rem;
+  block-size: 2.8rem;
+  place-items: center;
+  color: var(--paper);
+  background: var(--accent-dark);
+  border: 1px solid var(--paper);
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+}
+
+.brand strong {
+  font-family: var(--display);
+  font-size: clamp(1rem, 2.3vw, 1.45rem);
+  letter-spacing: .025em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.brand small {
+  margin-block-start: .25rem;
+  color: var(--paper-dim);
+  font-size: .68rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.issue {
+  display: flex;
+  flex-direction: column;
+  color: var(--paper-dim);
+  font-family: var(--sans);
+  font-size: .66rem;
+  letter-spacing: .12em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.issue strong {
+  color: var(--paper-light);
+  font-size: .85rem;
+}
+
+.catalogButton,
+.control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 2.75rem;
+  color: var(--paper-light);
+  background: transparent;
+  border: 1px solid rgb(215 199 165 / 45%);
+  border-radius: 0;
+  font-family: var(--sans);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.catalogButton {
+  gap: .5rem;
+  padding-inline: 1rem;
+}
+
+.catalogButton:hover,
+.control:hover:not(:disabled) {
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.catalogButton:focus-visible,
+.control:focus-visible,
+.catalogEntry:focus-visible,
+.brand:focus-visible {
+  outline: 3px solid #e8a05c;
+  outline-offset: 3px;
+}
+
+.main {
+  max-inline-size: 1540px;
+  margin-inline: auto;
+  padding: clamp(1rem, 3vw, 2.5rem);
+}
+
+.status {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.viewport {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: center;
+  inline-size: 100%;
+}
+
+.viewport.spread {
+  grid-template-columns: repeat(2, auto);
+  gap: 34px;
+}
+
+.viewport.spread > :first-child {
+  box-shadow: inset -2rem 0 3rem rgb(44 31 20 / 14%), 0 1.2rem 3rem rgb(28 25 18 / 35%);
+}
+
+.viewport.spread > :last-child:not(:first-child) {
+  box-shadow: inset 2rem 0 3rem rgb(44 31 20 / 14%), 0 1.2rem 3rem rgb(28 25 18 / 35%);
+}
+
+.turning {
+  animation: page-in 180ms ease-out;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-block-start: 1.5rem;
+}
+
+.control {
+  inline-size: 3rem;
+  font-size: 1.4rem;
+}
+
+.control:disabled {
+  opacity: .35;
+  cursor: default;
+}
+
+.counter {
+  min-inline-size: 6.5rem;
+  color: var(--paper-dim);
+  font-family: var(--mono);
+  font-size: .82rem;
+  text-align: center;
+}
+
+.siteFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  max-inline-size: 1540px;
+  margin-inline: auto;
+  padding: 0 clamp(1rem, 3vw, 2.5rem) 1.5rem;
+  color: var(--paper-dim);
+  font-size: .68rem;
+  letter-spacing: .04em;
+}
+
+.measurement {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: -20000px;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.catalog {
+  inline-size: min(720px, calc(100% - 2rem));
+  max-block-size: calc(100vh - 2rem);
+  padding: clamp(1rem, 4vw, 2rem);
+  color: var(--ink);
+  background: var(--paper-light);
+  border: 2px solid var(--accent-dark);
+  border-radius: 0;
+  box-shadow: 0 2rem 5rem rgb(0 0 0 / 50%);
+}
+
+.catalog::backdrop {
+  background: rgb(25 25 21 / 75%);
+  backdrop-filter: blur(3px);
+}
+
+.catalogHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block-end: 1rem;
+  border-block-end: 3px double var(--ink);
+}
+
+.catalogHeader h2 {
+  margin: .2rem 0 0;
+  font-family: var(--display);
+  font-size: 2rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.catalog .control {
+  color: var(--ink);
+  border-color: var(--ink-soft);
+}
+
+.kicker {
+  color: var(--accent);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.catalogList {
+  display: grid;
+}
+
+.catalogEntry {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-block-end: 1px solid var(--ink-soft);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.catalogEntry:hover {
+  background: rgb(130 61 50 / 8%);
+}
+
+.catalogEntry small,
+.catalogEntry strong,
+.catalogEntry span {
+  display: block;
+}
+
+.catalogEntry small {
+  color: var(--accent);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.catalogEntry strong {
+  margin: .2rem 0 .35rem;
+  font-family: var(--display);
+  font-size: 1.25rem;
+  line-height: 1.05;
+}
+
+.catalogPage {
+  color: var(--accent-dark);
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.colophon {
+  margin: 1.25rem 0 0;
+  color: var(--ink-muted);
+  font-size: .76rem;
+  line-height: 1.45;
+}
+
+@keyframes page-in {
+  from { opacity: .45; translate: 0 .4rem; }
+  to { opacity: 1; translate: 0; }
+}
+
+@media (max-width: 700px) {
+  .masthead {
+    grid-template-columns: 1fr auto;
+  }
+
+  .issue,
+  .brand small,
+  .siteFooter span:last-child {
+    display: none;
+  }
+
+  .catalogButton {
+    inline-size: 2.75rem;
+    padding: 0;
+    font-size: 0;
+  }
+
+  .catalogButton span {
+    font-size: 1.2rem;
+  }
+
+  .main {
+    padding-inline: .65rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .turning {
+    animation: none;
+  }
+}
+
+@media print {
+  .masthead,
+  .navigation,
+  .siteFooter,
+  .measurement,
+  .catalog {
+    display: none;
+  }
+
+  .main {
+    padding: 0;
+  }
+
+  .viewport,
+  .viewport.spread {
+    display: block;
+  }
+}

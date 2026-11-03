@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460">
+  <rect x="8" y="8" width="884" height="444" fill="#d7c7a5" stroke="#823d32" stroke-width="5"/>
+  <g fill="none" stroke="#292c27" stroke-width="3">
+    <path d="M160 95h70V55h70v40h70V55h70v40h70V55h70v40h70V55h70v40h70"/>
+    <path d="M160 165h105v-40h105v40h105v-40h105v40h105v-40h105"/>
+    <path d="M160 235h140v-40h140v40h140v-40h140v40h140"/>
+    <path d="M160 305h210v-40h210v40h210v-40h70"/>
+    <path d="M160 375h280v-40h280v40h140"/>
+    <path d="M160 45v350M720 45v350" stroke-dasharray="5 7" opacity=".45"/>
+  </g>
+  <g font-family="monospace" font-size="22" fill="#292c27"><text x="35" y="85">Ф1</text><text x="35" y="155">Ф2</text><text x="35" y="225">RAS</text><text x="35" y="295">CAS</text><text x="35" y="365">WR</text><text x="745" y="85">ТАКТ</text><text x="745" y="155">СДВИГ</text><text x="745" y="225">СТРОКА</text><text x="745" y="295">АДРЕС</text><text x="745" y="365">ЗАПИСЬ</text></g>
+</svg>
