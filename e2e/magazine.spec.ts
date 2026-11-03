@@ -149,3 +149,35 @@ test('all seven historical images load without browser errors', async ({ page })
   expect(errors).toEqual([])
   expect(failedRequests).toEqual([])
 })
+
+
+test('local PT fonts render Cyrillic without external font services', async ({ page }) => {
+  const externalRequests: string[] = []
+  const fontResponses: { url: string; status: number }[] = []
+  page.on('request', (request) => {
+    if (/fonts\.(googleapis|gstatic)\.com/.test(request.url())) externalRequests.push(request.url())
+  })
+  page.on('response', (response) => {
+    if (response.url().endsWith('.woff2')) fontResponses.push({ url: response.url(), status: response.status() })
+  })
+
+  await page.goto(articleUrl())
+  await expect(page.locator('section[aria-label="Страница 19"]')).toBeInViewport({ ratio: 0.5 })
+  await page.evaluate(() => document.fonts.ready)
+
+  const state = await page.evaluate(() => ({
+    loadedFonts: [...document.fonts].filter((face) => face.status === 'loaded').map((face) => face.family),
+    bodyFamily: getComputedStyle(document.body).fontFamily,
+    headingFamily: getComputedStyle(document.querySelector('h1')!).fontFamily,
+  }))
+  expect(state.loadedFonts).toContain('PT Serif')
+  expect(state.loadedFonts).toContain('PT Sans Narrow')
+  expect(state.bodyFamily).toContain('PT Serif')
+  expect(state.headingFamily).toContain('PT Sans Narrow')
+  expect(externalRequests).toEqual([])
+  expect(fontResponses.length).toBeGreaterThanOrEqual(4)
+  fontResponses.forEach((response) => {
+    expect(response.status).toBe(200)
+    expect(response.url).toContain('/pechatnaya-plata/fonts/')
+  })
+})

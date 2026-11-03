@@ -1,4 +1,5 @@
 import { mountMagazine } from '@components/Magazine'
+import './fonts.css'
 import './global.css'
 
 const root = document.querySelector<HTMLElement>('#app')
