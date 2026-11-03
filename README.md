@@ -24,6 +24,7 @@
 - `gray-matter` для метаданных во время сборки;
 - `markdown-it` для клиентского рендера;
 - собственный небольшой JSX-runtime и CSS Modules;
+- локальные PT Serif и PT Sans Narrow с кириллицей в WOFF2, без внешних font-сервисов;
 - Vitest и jsdom для модульных проверок;
 - Playwright для браузерных сценариев production-сборки.
 
@@ -69,6 +70,8 @@ content/articles/<slug>/
   index.md               статья с frontmatter
   media/                 изображения и схемы только этой статьи
 public/                  общие ресурсы сайта
+public/fonts/            локальные WOFF2, OFL-лицензии и источники
+src/fonts.css            подключение PT Serif и PT Sans Narrow
 src/components/          DOM-компоненты и CSS Modules
 src/content/             каталог, медиа, lazy-загрузка и Markdown renderer
 src/lib/jsx/             JSX-runtime без виртуального DOM

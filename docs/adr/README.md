@@ -9,3 +9,4 @@
 | [0003](0003-ci-and-pages.md) | Выборочный CI и проверка GitHub Pages до merge | Принято |
 | [0004](0004-modern-editorial-design.md) | Современный editorial-дизайн без смены reader | Принято |
 | [0005](0005-vertical-a4-reader.md) | Вертикальная лента страниц A4 | Принято |
+| [0006](0006-journal-typography.md) | Локальная типографика PT Serif и PT Sans Narrow | Принято |
