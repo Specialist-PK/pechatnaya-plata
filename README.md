@@ -72,8 +72,10 @@ src/content/             каталог, медиа, lazy-загрузка и Ma
 src/lib/jsx/             JSX-runtime без виртуального DOM
 src/lib/paginate.ts      распределение блоков по страницам
 e2e/                     пользовательские сценарии Playwright
+tools/ci/                выбор CI jobs по изменённым файлам
+docs/adr/                архитектурные решения и их контекст
 scripts/                 финализация production-сборки
-.github/workflows/       деплой на GitHub Pages
+.github/workflows/       CI и деплой на GitHub Pages
 ```
 
 Импорты между модулями `src` используют абсолютные алиасы `@components`, `@content` и `@lib`. Относительные импорты остаются только для файлов внутри одного модуля, например CSS Modules. Алиасы синхронизированы в `tsconfig.json` и `vite.config.ts`.
@@ -108,9 +110,23 @@ hero: "media/hero.svg"
 
 Vite выпускает медиа как assets, а `resolveArticleMedia()` связывает их с конкретной статьёй и учитывает `BASE_PATH`. Сырой HTML в Markdown отключён. Номера страниц зависят от ширины экрана, поэтому `startPage` задаёт только номер первой страницы статьи.
 
+## Процесс разработки
+
+Планы находятся в закреплённом [Roadmap issue #4](https://github.com/Specialist-PK/pechatnaya-plata/issues/4). Каждая задача проходит последовательность **issue → ветка от свежего `main` → pull request с `Closes #N` → зелёный aggregate `ci` → squash merge**. Заголовки коммитов и PR — английские Conventional Commits, описание PR — русское по шаблону.
+
+Значимые архитектурные решения записываются в [`docs/adr/`](docs/adr/README.md). Шаблоны Task и Bug находятся в `.github/ISSUE_TEMPLATE/`.
+
+CI выбирает jobs по изменённым файлам через покрытые тестами правила `tools/ci/src/select.ts`:
+
+- `test` — TypeScript и Vitest;
+- `web` — production-сборка и Playwright;
+- `ci` — aggregate gate, принимающий `success` и `skipped`.
+
+Неизвестный путь запускает все проверки. При добавлении новых каталогов правила и их тесты обновляются в том же изменении.
+
 ## Деплой на GitHub Pages
 
-Workflow `.github/workflows/deploy.yml` запускается после push в `main` и вручную. Он устанавливает Bun, проверяет TypeScript, запускает Vitest и Playwright, собирает `dist/` с `BASE_PATH` от `actions/configure-pages` и публикует артефакт через `actions/deploy-pages`.
+Workflow `.github/workflows/deploy.yml` запускается для pull requests, после push в `main` и вручную. В PR он проверяет TypeScript, Vitest, production-сборку с `BASE_PATH` от `actions/configure-pages` и Playwright, но не публикует сайт. Job `deploy` выполняется только вне pull request и публикует `dist/` через `actions/deploy-pages`.
 
 Перед первым запуском выберите **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 

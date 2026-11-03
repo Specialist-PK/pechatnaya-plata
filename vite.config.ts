@@ -89,7 +89,7 @@ export default defineConfig({
   build: { sourcemap: true },
   test: {
     environment: 'jsdom',
-    include: ['src/**/*.test.{ts,tsx}'],
+    include: ['src/**/*.test.{ts,tsx}', 'tools/**/*.test.ts'],
     restoreMocks: true,
   },
 })

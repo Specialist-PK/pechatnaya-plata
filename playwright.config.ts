@@ -1,7 +1,8 @@
 import { defineConfig } from '@playwright/test'
 
-const basePath = '/pechatnaya-plata/'
-const baseURL = `http://127.0.0.1:4173${basePath}`
+const basePath = process.env.BASE_PATH ?? '/pechatnaya-plata/'
+const port = Number(process.env.PLAYWRIGHT_PORT ?? 4173)
+const baseURL = `http://127.0.0.1:${port}${basePath}`
 const executablePath = process.env.CHROME_PATH
 
 export default defineConfig({
@@ -16,7 +17,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   webServer: {
-    command: `BASE_PATH=${basePath} bun run build && BASE_PATH=${basePath} bun run preview -- --port 4173`,
+    command: `BASE_PATH=${basePath} bun run build && BASE_PATH=${basePath} bun run preview -- --port ${port}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
