@@ -266,6 +266,30 @@ test('all seven historical images load without browser errors', async ({ page })
   expect(failedRequests).toEqual([])
 })
 
+test('source opens original WebP pages for reading', async ({ page }) => {
+  await page.goto(articleUrl())
+  const links = page.locator('blockquote a')
+  await expect(links).toHaveText(['19', '20', '21', '22'])
+  await expect(links).toHaveCount(4)
+  for (const [index, link] of (await links.all()).entries()) {
+    await expect(link).toHaveAttribute('href', new RegExp(`original-page-${index + 19}-[^/]+\\.webp`))
+    await expect(link).toHaveAttribute('target', '_blank')
+    await expect(link).toHaveAttribute('rel', /noopener/)
+    const response = await page.request.get((await link.getAttribute('href'))!)
+    expect(response.ok()).toBe(true)
+    expect(response.headers()['content-type']).toBe('image/webp')
+  }
+
+  const [original] = await Promise.all([
+    page.context().waitForEvent('page'),
+    links.first().click(),
+  ])
+  await original.waitForLoadState()
+  await expect(original.locator('img')).toHaveJSProperty('naturalWidth', 2576)
+  await expect(original.locator('img')).toHaveJSProperty('naturalHeight', 3425)
+  await original.close()
+})
+
 test('system fonts render body text and technical notation without downloads', async ({ page }) => {
   const fontRequests: string[] = []
   page.on('request', (request) => {
