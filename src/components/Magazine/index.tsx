@@ -96,7 +96,16 @@ export function mountMagazine(root: HTMLElement): void {
     return { continuous: isContinuous, spread: isSpread, width, height: Math.round(width * 297 / 210) }
   }
 
-  const currentRowStart = () => spread ? currentIndex - currentIndex % 2 : currentIndex
+  const rowStartAt = (index: number) => {
+    if (!spread || index === 0) return index
+    const page = pages[index]
+    const previous = pages[index - 1]
+    return page && previous && page.number % 2 !== 0 && previous.number === page.number - 1
+      ? index - 1
+      : index
+  }
+
+  const currentRowStart = () => rowStartAt(currentIndex)
 
   const updateUrl = (mode: Exclude<RouteUpdate, 'none'> = 'replace') => {
     const page = pages[currentIndex]
@@ -119,7 +128,10 @@ export function mountMagazine(root: HTMLElement): void {
     }
 
     const firstVisible = currentRowStart()
-    const lastVisible = Math.min(firstVisible + (spread ? 1 : 0), pages.length - 1)
+    const firstPage = pages[firstVisible]!
+    const lastVisible = spread && firstPage.number % 2 === 0 && pages[firstVisible + 1]?.number === firstPage.number + 1
+      ? firstVisible + 1
+      : firstVisible
     const position = lastVisible > firstVisible
       ? `${pages[firstVisible]!.number}–${pages[lastVisible]!.number} / ${currentArticle.startPage + pages.length - 1}`
       : `${page.number} / ${currentArticle.startPage + pages.length - 1}`
@@ -164,7 +176,7 @@ export function mountMagazine(root: HTMLElement): void {
       if (pages[index]!.element.getBoundingClientRect().top <= readingLine) next = index
       else break
     }
-    if (spread) next -= next % 2
+    next = rowStartAt(next)
     if (next === currentIndex) return
 
     currentIndex = next
@@ -177,14 +189,26 @@ export function mountMagazine(root: HTMLElement): void {
     viewport.classList.toggle(styles.continuous!, continuous)
     viewport.setAttribute('aria-label', continuous ? 'Статья' : 'Страницы статьи')
     footerHint.textContent = continuous ? 'Прокручивайте статью' : 'Прокручивайте ленту · ← → — страницы'
+    pages.forEach((item, index) => {
+      const start = rowStartAt(index)
+      const left = pages[start]
+      const right = pages[start + 1]
+      const paired = spread && left && left.number % 2 === 0 && right?.number === left.number + 1
+      item.element.style.gridColumn = spread && !paired ? (item.number % 2 === 0 ? '1' : '2') : ''
+    })
     viewport.replaceChildren(...pages.map((item) => item.element))
     updateNavigation()
   }
 
   const changePage = (direction: number) => {
-    const step = spread ? 2 : 1
     const firstVisible = currentRowStart()
-    const next = Math.max(0, Math.min(pages.length - 1, firstVisible + direction * step))
+    const left = pages[firstVisible]
+    const right = pages[firstVisible + 1]
+    const paired = spread && left && left.number % 2 === 0 && right?.number === left.number + 1
+    const rowSize = paired ? 2 : 1
+    const next = direction > 0
+      ? Math.min(pages.length - 1, firstVisible + rowSize)
+      : rowStartAt(Math.max(0, firstVisible - 1))
     if (next === currentIndex) return
     scrollToIndex(next)
   }
