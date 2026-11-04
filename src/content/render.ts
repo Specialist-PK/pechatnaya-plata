@@ -12,6 +12,22 @@ export function renderMarkdown(source: string, slug: string): HTMLElement {
   article.className = 'article-body'
   article.innerHTML = markdown.render(source)
 
+  for (const code of article.querySelectorAll('code')) {
+    const notation = code.textContent ?? ''
+    if (!notation.startsWith('/')) continue
+    code.textContent = notation.slice(1)
+    code.classList.add('active-low')
+  }
+
+  for (const table of article.querySelectorAll('table')) {
+    const heading = table.previousElementSibling
+    if (!(heading instanceof HTMLHeadingElement)) continue
+    const caption = document.createElement('caption')
+    caption.textContent = heading.textContent
+    table.prepend(caption)
+    heading.remove()
+  }
+
   for (const image of article.querySelectorAll('img')) {
     const source = image.getAttribute('src') ?? ''
     if (source.startsWith('media/')) {
@@ -27,6 +43,10 @@ export function renderMarkdown(source: string, slug: string): HTMLElement {
       const figure = document.createElement('figure')
       const caption = document.createElement('figcaption')
       caption.textContent = image.alt
+      if (image.title === 'column') {
+        figure.classList.add('column-figure')
+        image.removeAttribute('title')
+      }
       figure.append(image, caption)
       paragraph.replaceWith(figure)
     }
