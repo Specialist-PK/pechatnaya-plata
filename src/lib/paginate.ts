@@ -24,7 +24,7 @@ export function paginateArticle({ article, body, host, width, height }: Paginati
 
   const createPage = () => {
     const pageNumber = article.startPage + pages.length
-    const page = createMagazinePage(article, pageNumber)
+    const page = createMagazinePage(pageNumber)
     page.element.style.setProperty('--page-width', `${width}px`)
     page.element.style.setProperty('--page-height', `${height}px`)
     host.append(page.element)
@@ -34,8 +34,57 @@ export function paginateArticle({ article, body, host, width, height }: Paginati
 
   current = createPage()
 
+  const [hero, source, openingFigure] = queue
+  if (hero?.tagName === 'HEADER' && source?.tagName === 'BLOCKQUOTE' && openingFigure?.tagName === 'FIGURE') {
+    const openingText = document.createElement('div')
+    openingText.className = styles.openingText!
+    openingText.setAttribute('data-opening-text', '')
+    queue.splice(0, 3)
+    current.element.setAttribute('data-opening-layout', '')
+    current.content.append(hero, openingText, openingFigure, source)
+  }
+
   const finishPage = () => {
     current = createPage()
+  }
+
+  const finishSpread = (withLead = false) => {
+    const endIndex = queue.findIndex((element) => element.hasAttribute('data-spread-end'))
+    if (endIndex < 0) return false
+    const [end] = queue.splice(endIndex, 1)
+    finishPage()
+    current.content.append(end!)
+    finishPage()
+    if (withLead) {
+      const leadIndex = queue.findIndex((element) => element.classList.contains('lead-figure'))
+      if (leadIndex >= 0) {
+        const [lead] = queue.splice(leadIndex, 1)
+        current.content.append(lead!)
+      }
+    }
+    return true
+  }
+
+  const placeSpreadCompanion = (block: HTMLElement): boolean => {
+    if (!block.hasAttribute('data-spread-companion') || !current.content.querySelector('[data-spread-start]')) return false
+    const displaced: HTMLElement[] = []
+    current.content.append(block)
+
+    while (overflows(current.content)) {
+      const previous = block.previousElementSibling
+      if (!(previous instanceof HTMLElement) || previous.tagName !== 'P') break
+      previous.remove()
+      displaced.unshift(previous)
+    }
+
+    if (!overflows(current.content) && finishSpread(true)) {
+      queue.unshift(...displaced)
+      return true
+    }
+
+    block.remove()
+    current.content.append(...displaced)
+    return false
   }
 
   while (queue.length > 0) {
@@ -43,27 +92,59 @@ export function paginateArticle({ article, body, host, width, height }: Paginati
     const spreadStart = block.hasAttribute('data-spread-start')
     const spreadEnd = block.hasAttribute('data-spread-end')
 
-    if ((spreadStart || spreadEnd) && current.content.childElementCount > 0) {
+    if (placeSpreadCompanion(block)) continue
+
+    if (!spreadEnd && block.tagName === 'FIGURE' && current.content.querySelector('[data-spread-start]') && finishSpread()) {
+      queue.unshift(block)
+      continue
+    }
+
+    if (spreadEnd && current.content.childElementCount > 0) {
       finishPage()
       queue.unshift(block)
       continue
     }
 
-    if (spreadStart && pages.length % 2 === 0) {
+    if (block.classList.contains('lead-figure') && current.content.childElementCount > 0) {
       finishPage()
       queue.unshift(block)
       continue
     }
 
-    const previous = current.content.lastElementChild
-    current.content.append(block)
+    if (spreadStart && (article.startPage + pages.length - 1) % 2 !== 0) {
+      finishPage()
+      queue.unshift(block)
+      continue
+    }
 
-    if (!overflows(current.content)) {
-      if (spreadEnd) finishPage()
+    const target = current.element.hasAttribute('data-opening-layout')
+      ? current.content.querySelector<HTMLElement>('[data-opening-text]')!
+      : current.content
+    const previous = target.lastElementChild
+    target.append(block)
+
+    if (!overflows(current.content) && !overflows(target)) {
+      if (spreadEnd || block.hasAttribute('data-page-end')) finishPage()
       continue
     }
 
     block.remove()
+
+    if (current.content.querySelector('[data-spread-start]')) {
+      const companionIndex = queue.findIndex((element) => element.hasAttribute('data-spread-companion'))
+      if (companionIndex >= 0) {
+        const [companion] = queue.splice(companionIndex, 1)
+        queue.unshift(block)
+        if (placeSpreadCompanion(companion!)) continue
+        queue.shift()
+        queue.splice(companionIndex, 0, companion!)
+      }
+
+      if (finishSpread()) {
+        queue.unshift(block)
+        continue
+      }
+    }
 
     if (current.content.childElementCount > 0) {
       if (previous instanceof HTMLHeadingElement) {

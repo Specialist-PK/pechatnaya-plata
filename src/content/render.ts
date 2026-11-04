@@ -43,10 +43,14 @@ export function renderMarkdown(source: string, slug: string): HTMLElement {
       const figure = document.createElement('figure')
       const caption = document.createElement('figcaption')
       caption.textContent = image.alt
-      if (image.title === 'column') {
-        figure.classList.add('column-figure')
-        image.removeAttribute('title')
+      for (const token of image.title.split(/\s+/).filter(Boolean)) {
+        if (token === 'column') figure.classList.add('column-figure')
+        if (token === 'lead') figure.classList.add('lead-figure')
+        if (token === 'embedded-caption') figure.classList.add('embedded-caption')
+        if (token === 'page-end') figure.setAttribute('data-page-end', '')
+        if (token === 'spread-companion') figure.setAttribute('data-spread-companion', '')
       }
+      image.removeAttribute('title')
       figure.append(image, caption)
       paragraph.replaceWith(figure)
     }
@@ -58,12 +62,23 @@ export function renderMarkdown(source: string, slug: string): HTMLElement {
     const match = caption.match(/^(.*), первая часть$/)
     if (!match) return
 
-    const nextCaption = figures[index + 1]?.querySelector('figcaption')?.textContent
-    if (nextCaption === `${match[1]}, вторая часть`) {
+    const secondPart = figures.slice(index + 1).find((candidate) =>
+      candidate.querySelector('figcaption')?.textContent === `${match[1]}, вторая часть`)
+    if (secondPart) {
       figure.setAttribute('data-spread-start', '')
-      figures[index + 1]?.setAttribute('data-spread-end', '')
+      secondPart.setAttribute('data-spread-end', '')
     }
   })
+
+  const tables = Array.from(article.querySelectorAll('table'))
+  for (const image of article.querySelectorAll('figure img')) {
+    const table = tables.find((candidate) => candidate.querySelector('caption')?.textContent === image.getAttribute('alt'))
+    if (!table) continue
+    table.id = `${slug}-table-${tables.indexOf(table) + 1}-description`
+    table.classList.add('visually-hidden')
+    image.setAttribute('aria-describedby', table.id)
+    image.closest('figure')?.append(table)
+  }
 
   return article
 }

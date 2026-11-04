@@ -13,7 +13,10 @@ export default defineConfig({
     baseURL,
     browserName: 'chromium',
     viewport: { width: 2560, height: 1600 },
-    launchOptions: executablePath ? { executablePath } : {},
+    launchOptions: executablePath ? {
+      executablePath,
+      ignoreDefaultArgs: ['--disable-blink-features=AutomationControlled'],
+    } : {},
     trace: 'retain-on-failure',
   },
   webServer: {
