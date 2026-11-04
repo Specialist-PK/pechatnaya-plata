@@ -25,7 +25,7 @@ export function createContinuousArticle(article: ArticleMeta, body: HTMLElement)
 
 export function createMagazinePage(article: ArticleMeta, number: number): PageView {
   const content = <div class={styles.content} /> as HTMLElement
-  const element = <section class={`${styles.page}${number % 2 === 0 ? ` ${styles.even}` : ''}`} aria-label={`Страница ${number}`}>
+  const element = <section class={`${styles.page}${number % 2 !== 0 ? ` ${styles.odd}` : ''}`} aria-label={`Страница ${number}`}>
     <header class={styles.header}>
       <span>Печатная плата</span>
       <span>{article.issue}</span>

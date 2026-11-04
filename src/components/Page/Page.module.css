@@ -39,7 +39,7 @@
   border-block-start: 1px solid var(--line);
 }
 
-.even .footer {
+.odd .footer {
   flex-direction: row-reverse;
 }
 
@@ -89,9 +89,16 @@
 .content :global(blockquote),
 .content :global(figure),
 .content :global(h2),
-.content :global(pre),
-.content :global(table) {
+.content :global(pre) {
   column-span: all;
+}
+
+.content :global(figure.column-figure) {
+  column-span: none;
+}
+
+.page .content :global(figure.column-figure) {
+  break-before: column;
 }
 
 .hero {
@@ -165,7 +172,6 @@
   margin: 1em 0;
   padding: .75em 0 .55em;
   text-align: center;
-  border-block: 1px solid var(--line);
   break-inside: avoid;
 }
 
@@ -253,6 +259,11 @@
 .content :global(code) {
   font-family: var(--mono);
   font-size: .85em;
+  font-weight: 700;
+}
+
+.content :global(code.active-low) {
+  text-decoration: overline;
 }
 
 .content :global(blockquote) {
@@ -271,20 +282,24 @@
   margin: .85em 0;
   border-collapse: collapse;
   font-family: var(--sans);
-  font-size: .72em;
   line-height: 1.25;
   text-align: left;
+}
+
+.content :global(caption) {
+  padding-block-end: .5em;
+  font-weight: 700;
+  text-align: left;
+}
+
+.content :global(thead) {
+  display: none;
 }
 
 .content :global(th),
 .content :global(td) {
   padding: .5em;
-  border: 1px solid var(--line);
-}
-
-.content :global(th) {
-  color: var(--paper);
-  background: var(--ink);
+  border: 0;
 }
 
 .content :global(ul),

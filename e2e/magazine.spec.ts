@@ -39,12 +39,44 @@ test('desktop A4 spreads stay in one vertically scrolling DOM', async ({ page })
   expect(Math.abs(firstBox!.x + firstBox!.width - secondBox!.x)).toBeLessThanOrEqual(1)
   expect(thirdBox!.y).toBeGreaterThanOrEqual(firstBox!.y + firstBox!.height)
 
+  const memoryMap = second.locator('figure.column-figure')
+  await expect(memoryMap).toHaveCount(1)
+  await expect(memoryMap).toHaveCSS('column-span', 'none')
+  await expect(memoryMap.locator('figcaption')).toHaveText('Рис. 2. Схема распределения памяти')
+
   const oddRubricBox = await first.locator('[class*="footer"] span').first().boundingBox()
   const oddNumberBox = await first.locator('[class*="pageNumber"]').boundingBox()
   const evenRubricBox = await second.locator('[class*="footer"] span').first().boundingBox()
   const evenNumberBox = await second.locator('[class*="pageNumber"]').boundingBox()
-  expect(oddNumberBox!.x).toBeGreaterThan(oddRubricBox!.x)
-  expect(evenNumberBox!.x).toBeLessThan(evenRubricBox!.x)
+  expect(oddNumberBox!.x).toBeLessThan(oddRubricBox!.x)
+  expect(evenNumberBox!.x).toBeGreaterThan(evenRubricBox!.x)
+
+  const timingDiagram = page.locator('figure:has(img[alt^="Рис. 4."])')
+  const timingDiagramPage = pages.filter({ has: timingDiagram })
+  await expect(timingDiagramPage).toHaveAttribute('aria-label', 'Страница 22')
+  await expect(timingDiagramPage.locator('[class*="content"] > *')).toHaveCount(1)
+
+  const specificationsTable = page.locator('table')
+  const specificationsFigure = page.locator('figure:has(img[alt^="Таблица технических характеристик"])')
+  await expect(specificationsTable).toHaveCSS('column-span', 'none')
+  await expect(specificationsFigure).toHaveCSS('column-span', 'none')
+  await expect(specificationsTable.locator('caption')).toHaveText('Технические характеристики компьютера «Специалист»')
+  await expect(specificationsTable.locator('caption')).toBeVisible()
+  await expect(specificationsTable).toHaveCSS('font-size', await specificationsTable.evaluate((table) => getComputedStyle(table.parentElement!).fontSize))
+  await expect(specificationsTable.locator('thead')).toBeHidden()
+  await expect(specificationsTable.locator('td').first()).toHaveCSS('border-top-width', '0px')
+  await expect(specificationsTable.locator('td').first()).toHaveCSS('border-right-width', '0px')
+  await expect(specificationsTable.locator('td').first()).toHaveCSS('border-bottom-width', '0px')
+  await expect(specificationsTable.locator('td').first()).toHaveCSS('border-left-width', '0px')
+  const specificationsTablePage = pages.filter({ has: specificationsTable })
+  const specificationsFigurePage = pages.filter({ has: specificationsFigure })
+  await expect(specificationsTablePage).toHaveCount(1)
+  await expect(specificationsFigurePage).toHaveCount(1)
+  expect(await specificationsTablePage.getAttribute('aria-label')).toBe(await specificationsFigurePage.getAttribute('aria-label'))
+  const specificationsTableBox = await specificationsTable.boundingBox()
+  const specificationsFigureBox = await specificationsFigure.boundingBox()
+  expect(specificationsTableBox!.x).toBeLessThan(specificationsFigureBox!.x)
+  expect(Math.abs(specificationsTableBox!.y - specificationsFigureBox!.y)).toBeLessThanOrEqual(20)
 
   const schematicStart = page.locator('figure[data-spread-start]')
   const schematicEnd = page.locator('figure[data-spread-end]')
@@ -196,7 +228,7 @@ test('all seven historical images load without browser errors', async ({ page })
 })
 
 
-test('system sans-serif renders Cyrillic without font downloads', async ({ page }) => {
+test('system fonts render body text and technical notation without downloads', async ({ page }) => {
   const fontRequests: string[] = []
   page.on('request', (request) => {
     if (/\.(woff2?|ttf|otf)$/.test(new URL(request.url()).pathname)) fontRequests.push(request.url())
@@ -204,6 +236,14 @@ test('system sans-serif renders Cyrillic without font downloads', async ({ page 
 
   await page.goto(articleUrl())
   await expect(page.locator('section[aria-label="Страница 19"]')).toBeInViewport({ ratio: 0.5 })
+  const technicalNotation = page.locator('code').first()
+  await expect(technicalNotation).toHaveText('ЭВМ')
+  await expect(technicalNotation).toHaveCSS('font-family', 'monospace')
+  await expect(technicalNotation).toHaveCSS('font-weight', '700')
+  const activeLowSignals = page.locator('code.active-low')
+  await expect(activeLowSignals).toHaveCount(8)
+  await expect(activeLowSignals.first()).toHaveText('RAS')
+  await expect(activeLowSignals.first()).toHaveCSS('text-decoration-line', 'overline')
 
   const state = await page.evaluate(() => ({
     fontFaces: [...document.fonts].map((face) => face.family),
