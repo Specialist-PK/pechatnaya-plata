@@ -32,6 +32,19 @@ export function renderMarkdown(source: string, slug: string): HTMLElement {
     }
   }
 
+  const figures = Array.from(article.querySelectorAll('figure'))
+  figures.forEach((figure, index) => {
+    const caption = figure.querySelector('figcaption')?.textContent ?? ''
+    const match = caption.match(/^(.*), первая часть$/)
+    if (!match) return
+
+    const nextCaption = figures[index + 1]?.querySelector('figcaption')?.textContent
+    if (nextCaption === `${match[1]}, вторая часть`) {
+      figure.setAttribute('data-spread-start', '')
+      figures[index + 1]?.setAttribute('data-spread-end', '')
+    }
+  })
+
   return article
 }
 

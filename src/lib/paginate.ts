@@ -13,6 +13,7 @@ interface PaginationOptions {
 
 function overflows(content: HTMLElement): boolean {
   return content.scrollHeight > content.clientHeight + 1
+    || content.scrollWidth > content.clientWidth + 1
 }
 
 export function paginateArticle({ article, body, host, width, height }: PaginationOptions): MagazinePage[] {
@@ -39,10 +40,28 @@ export function paginateArticle({ article, body, host, width, height }: Paginati
 
   while (queue.length > 0) {
     const block = queue.shift()!
+    const spreadStart = block.hasAttribute('data-spread-start')
+    const spreadEnd = block.hasAttribute('data-spread-end')
+
+    if ((spreadStart || spreadEnd) && current.content.childElementCount > 0) {
+      finishPage()
+      queue.unshift(block)
+      continue
+    }
+
+    if (spreadStart && pages.length % 2 === 0) {
+      finishPage()
+      queue.unshift(block)
+      continue
+    }
+
     const previous = current.content.lastElementChild
     current.content.append(block)
 
-    if (!overflows(current.content)) continue
+    if (!overflows(current.content)) {
+      if (spreadEnd) finishPage()
+      continue
+    }
 
     block.remove()
 
