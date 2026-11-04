@@ -1,7 +1,7 @@
 import { articles, loadArticleSource } from '@content/articles'
 import { renderMarkdown, waitForArticleAssets } from '@content/render'
 import type { MagazinePage } from '@content/types'
-import { createArticleHero } from '@components/Page'
+import { createArticleHero, createContinuousArticle } from '@components/Page'
 import { paginateArticle } from '@lib/paginate'
 import styles from './Magazine.module.css'
 
@@ -19,6 +19,7 @@ export function mountMagazine(root: HTMLElement): void {
   let pages: MagazinePage[] = []
   let currentIndex = 0
   let spread = false
+  let continuous = false
   let requestId = 0
   let lastWidth = 0
   let scrollFrame = 0
@@ -27,13 +28,11 @@ export function mountMagazine(root: HTMLElement): void {
   const sourceCache = new Map<string, string>()
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
-  const previousButton = <button class={styles.control} type="button" aria-label="Предыдущая страница">←</button> as HTMLButtonElement
-  const nextButton = <button class={styles.control} type="button" aria-label="Следующая страница">→</button> as HTMLButtonElement
-  const counter = <output class={styles.counter} /> as HTMLOutputElement
   const viewport = <div class={styles.viewport} aria-label="Страницы статьи" /> as HTMLElement
   const status = <p class={styles.status} role="status" aria-live="polite" /> as HTMLElement
   const measurement = <div class={styles.measurement} aria-hidden="true" /> as HTMLElement
   const catalog = <dialog class={styles.catalog} aria-labelledby="catalog-title" /> as HTMLDialogElement
+  const footerHint = <span>Прокручивайте ленту · ← → — страницы</span> as HTMLElement
 
   const closeCatalog = () => catalog.close()
   const openCatalog = () => catalog.showModal()
@@ -79,15 +78,10 @@ export function mountMagazine(root: HTMLElement): void {
       <main class={styles.main}>
         {status}
         {viewport}
-        <nav class={styles.navigation} aria-label="Листание журнала">
-          {previousButton}
-          {counter}
-          {nextButton}
-        </nav>
       </main>
       <footer class={styles.siteFooter}>
         <span>Микроэлектроника · домашние компьютеры · техническое творчество</span>
-        <span>Прокручивайте ленту · ← → — страницы</span>
+        {footerHint}
       </footer>
       {measurement}
       {catalog}
@@ -95,10 +89,11 @@ export function mountMagazine(root: HTMLElement): void {
   )
 
   const metrics = () => {
+    const isContinuous = viewport.clientWidth < 768
     const available = Math.min(viewport.clientWidth, 2100)
-    const isSpread = available >= 2100
+    const isSpread = !isContinuous && available >= 2100
     const width = Math.floor(isSpread ? available / 2 : Math.min(available, 1050))
-    return { spread: isSpread, width, height: Math.round(width * 297 / 210) }
+    return { continuous: isContinuous, spread: isSpread, width, height: Math.round(width * 297 / 210) }
   }
 
   const currentRowStart = () => spread ? currentIndex - currentIndex % 2 : currentIndex
@@ -106,7 +101,7 @@ export function mountMagazine(root: HTMLElement): void {
   const updateUrl = (mode: Exclude<RouteUpdate, 'none'> = 'replace') => {
     const page = pages[currentIndex]
     if (!page) return
-    const url = route(currentArticle.slug, page.number)
+    const url = route(currentArticle.slug, continuous ? undefined : page.number)
     if (location.hash === url) return
     if (mode === 'replace') history.replaceState(null, '', url)
     else history.pushState(null, '', url)
@@ -116,15 +111,19 @@ export function mountMagazine(root: HTMLElement): void {
     const page = pages[currentIndex]
     if (!page) return
 
+    document.title = `${currentArticle.title} — Печатная плата`
+    if (continuous) {
+      status.textContent = currentArticle.title
+      pages.forEach((item) => item.element.removeAttribute('aria-current'))
+      return
+    }
+
     const firstVisible = currentRowStart()
     const lastVisible = Math.min(firstVisible + (spread ? 1 : 0), pages.length - 1)
-    counter.value = lastVisible > firstVisible
+    const position = lastVisible > firstVisible
       ? `${pages[firstVisible]!.number}–${pages[lastVisible]!.number} / ${currentArticle.startPage + pages.length - 1}`
       : `${page.number} / ${currentArticle.startPage + pages.length - 1}`
-    previousButton.disabled = firstVisible === 0
-    nextButton.disabled = firstVisible + (spread ? 2 : 1) >= pages.length
-    status.textContent = `${currentArticle.title}. ${counter.value}`
-    document.title = `${currentArticle.title} — Печатная плата`
+    status.textContent = `${currentArticle.title}. ${position}`
 
     pages.forEach((item, index) => {
       if (index === currentIndex) item.element.setAttribute('aria-current', 'page')
@@ -175,6 +174,9 @@ export function mountMagazine(root: HTMLElement): void {
 
   const render = () => {
     viewport.classList.toggle(styles.spread!, spread)
+    viewport.classList.toggle(styles.continuous!, continuous)
+    viewport.setAttribute('aria-label', continuous ? 'Статья' : 'Страницы статьи')
+    footerHint.textContent = continuous ? 'Прокручивайте статью' : 'Прокручивайте ленту · ← → — страницы'
     viewport.replaceChildren(...pages.map((item) => item.element))
     updateNavigation()
   }
@@ -191,7 +193,7 @@ export function mountMagazine(root: HTMLElement): void {
     const article = articles.find((item) => item.slug === slug) ?? firstArticle
     const id = ++requestId
     clearScrollTarget()
-    status.textContent = 'Подготавливаем страницы…'
+    status.textContent = 'Подготавливаем статью…'
 
     let source = sourceCache.get(article.slug)
     if (!source) {
@@ -205,24 +207,28 @@ export function mountMagazine(root: HTMLElement): void {
     await waitForArticleAssets(body)
     if (id !== requestId) return
 
-    const nextPages = paginateArticle({
-      article,
-      body,
-      host: measurement,
-      width: nextMetrics.width,
-      height: nextMetrics.height,
-    })
+    const nextPages: MagazinePage[] = nextMetrics.continuous
+      ? [{ number: article.startPage, element: createContinuousArticle(article, body) }]
+      : paginateArticle({
+        article,
+        body,
+        host: measurement,
+        width: nextMetrics.width,
+        height: nextMetrics.height,
+      })
     if (nextPages.length === 0) throw new Error(`Article is empty: ${article.slug}`)
 
     currentArticle = article
     pages = nextPages
+    continuous = nextMetrics.continuous
     spread = nextMetrics.spread
     lastWidth = viewport.clientWidth
     currentIndex = requestedPage === undefined
       ? 0
       : Math.max(0, pages.findIndex((page) => page.number >= requestedPage))
     render()
-    if (canonicalize || location.hash !== route(article.slug, pages[currentIndex]?.number)) updateUrl('replace')
+    const expectedRoute = route(article.slug, continuous ? undefined : pages[currentIndex]?.number)
+    if (canonicalize || location.hash !== expectedRoute) updateUrl('replace')
     scrollToIndex(currentIndex, 'none', false)
   }
 
@@ -245,8 +251,6 @@ export function mountMagazine(root: HTMLElement): void {
     })
   }
 
-  previousButton.addEventListener('click', () => changePage(-1))
-  nextButton.addEventListener('click', () => changePage(1))
   catalog.addEventListener('click', (event) => {
     if (event.target === catalog) closeCatalog()
   })

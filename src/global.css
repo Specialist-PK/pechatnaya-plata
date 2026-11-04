@@ -9,11 +9,11 @@
   --ink-muted: #5b625b;
   --accent: #b5472e;
   --accent-dark: #89311e;
-  --display: 'PT Sans Narrow', 'Arial Narrow', 'Liberation Sans Narrow', Arial, sans-serif;
-  --sans: 'PT Sans Narrow', Arial, Helvetica, sans-serif;
-  --serif: 'PT Serif', Georgia, 'Times New Roman', serif;
-  --mono: 'Courier New', 'Liberation Mono', monospace;
-  font-family: var(--serif);
+  --display: sans-serif;
+  --sans: sans-serif;
+  --serif: sans-serif;
+  --mono: sans-serif;
+  font-family: var(--sans);
   color: var(--ink);
   background: var(--surface);
   font-synthesis: none;
