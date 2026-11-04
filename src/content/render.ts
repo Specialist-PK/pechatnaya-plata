@@ -28,6 +28,14 @@ export function renderMarkdown(source: string, slug: string): HTMLElement {
     heading.remove()
   }
 
+  for (const anchor of article.querySelectorAll('a')) {
+    const href = anchor.getAttribute('href') ?? ''
+    if (!href.startsWith('media/')) continue
+    anchor.href = resolveArticleMedia(slug, href)
+    anchor.target = '_blank'
+    anchor.rel = 'noopener noreferrer'
+  }
+
   for (const image of article.querySelectorAll('img')) {
     const source = image.getAttribute('src') ?? ''
     if (source.startsWith('media/')) {
