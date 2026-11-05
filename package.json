@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "typecheck": "tsc",
-    "build": "tsc && vite build && bun scripts/finalize-build.ts",
+    "build": "tsc && vite build && bun scripts/finalize-build.ts && bun scripts/export-spec.ts",
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run",
     "test:watch": "vitest",
